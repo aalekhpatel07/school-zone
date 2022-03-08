@@ -3,7 +3,11 @@ from dataclasses import dataclass
 from fastapi import FastAPI
 from py2neo.pep249 import connect
 from datetime import datetime, date
+import logging
 
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
 
 con = connect("bolt://beast:7687", auth=("neo4j", "test"))
 
@@ -28,6 +32,7 @@ class SchoolZone:
     effective_months: str
     is_active: bool
     reasons: Optional[Dict[str, str]]
+    distance: float
 
 
 @dataclass
@@ -57,7 +62,8 @@ async def get_closest_school_zone(latitude: float, longitude: float, radiusInKm:
 
     if result is None:
         return None
-    result = result[0][2]
+    result, distance = result[0][2], float(result[1])
+    logging.debug("distance: %.4f , result: %s", result, distance)
     
     effective_time = result['effectiv_2']
     effective_days, effective_months = result['effective_'].split(' ')
@@ -93,6 +99,7 @@ async def get_closest_school_zone(latitude: float, longitude: float, radiusInKm:
             effective_days = effective_days,
             effective_months = effective_months,
             is_active = is_active,
-            reasons=reasons
+            reasons=reasons,
+            distance=distance
         )
 
