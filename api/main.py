@@ -16,7 +16,7 @@ SCHOOL_ZONE_LAYER_NAME = "geo_export_3527abaf-6650-4a1e-964f-31a0968ab530"
 def build_query(latitude: float, longitude: float, distanceInKm: float = 0.6):
     """Build the cypher query of school zones around a coordinate.
     """
-    return f"CALL spatial.withinDistance('{SCHOOL_ZONE_LAYER_NAME}', {{ latitude: {latitude: .3f}, longitude: {longitude: .3f} }}, {distanceInKm: .3f})"
+    return f"CALL spatial.withinDistance('{SCHOOL_ZONE_LAYER_NAME}', {{ latitude: {latitude: .8f}, longitude: {longitude: .8f} }}, {distanceInKm: .8f})"
 
 
 @dataclass
