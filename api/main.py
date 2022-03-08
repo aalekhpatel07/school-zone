@@ -9,9 +9,15 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger()
 
-con = connect("bolt://beast:7687", auth=("neo4j", "test"))
+
+NEO4J_AUTH_USER = "neo4j"
+NEO4J_AUTH_PASS = "test"
+NEO4J_HOST_BOLT = "bolt://beast:7687"
 
 SCHOOL_ZONE_LAYER_NAME = "geo_export_3527abaf-6650-4a1e-964f-31a0968ab530"
+
+con = connect(NEO4J_HOST_BOLT, auth=(NEO4J_AUTH_USER, NEO4J_AUTH_PASS))
+
 
 def build_query(latitude: float, longitude: float, distanceInKm: float = 0.6):
     """Build the cypher query of school zones around a coordinate.
